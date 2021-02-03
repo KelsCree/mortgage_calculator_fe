@@ -76,10 +76,10 @@ function submitForm(event) {
 function deleteAllCalculations() {
   const calculationCards = document.querySelectorAll('.calculation-card')
   calculationCards.forEach(card => card.remove())
-  fetch(`${$global.baseURL}/${calculation.id}`, {
-    method: 'DELETE'
+  fetch(`${$global.baseURL}/deleteall`, {
+    method: 'GET'
   }).then(response => response.json())
-  console.log('calculation deleted :)')
+  console.log('all deleted')
 }
 
 
