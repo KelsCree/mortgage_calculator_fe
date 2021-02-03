@@ -1,10 +1,12 @@
 const $global = {
   history: document.querySelector('#history'),
   baseURL: 'http://localhost:3000/calculations',
-  deleteButton: document.querySelector('#delete-button')
+  deleteButton: document.querySelector('#delete-button'),
+  form: document.querySelector('form')
 }
 
 $global.deleteButton.addEventListener('click', () => deleteAllCalculations())
+$global.form.addEventListener('submit', submitForm)
 
 fetch($global.baseURL)
   .then(response => response.json())
@@ -54,11 +56,12 @@ function deleteCalculation(calculationCard, calculation) {
 
 function submitForm(event) {
   event.preventDefault()
-  const formData = new FormData(form)
+  const formData = new FormData($global.form)
   const principal = formData.get('principal')
   const interest = formData.get('interest')
   const years = formData.get('years')
   const calculation = { principal, interest, years }
+  console.log(calculation)
   fetch(`${$global.baseURL}`, {
     method: 'POST',
     headers: {
@@ -67,8 +70,7 @@ function submitForm(event) {
     },
     body: JSON.stringify(calculation)
   }).then(response => response.json())
-    .then(createCalculationCard(result))
-  createCalculationCard(result)
+    .then(result => createCalculationCard(result))
 }
 
 function deleteAllCalculations() {
